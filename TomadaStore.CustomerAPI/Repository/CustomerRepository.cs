@@ -39,13 +39,13 @@ namespace TomadaStore.CustomerAPI.Repository
             }
             catch (SqlException e)
             {
-                _logger.LogError("SQL Error inserting customer: " + e.Message);
-                throw new Exception(e.StackTrace);
+                _logger.LogError("SQL Error inserting customer: " + e.StackTrace);
+                throw new Exception(e.Message);
             }
             catch (Exception e)
             {
-                _logger.LogError("Error inserting customer: " + e.Message);
-                throw new Exception(e.StackTrace);
+                _logger.LogError("Error inserting customer: " + e.StackTrace);
+                throw new Exception(e.Message);
             }
         }
     }
