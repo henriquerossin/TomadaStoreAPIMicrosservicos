@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TomadaStore.Models.DTOs.Customer
 {
-    internal class CustomerResponseDTO
+    public class CustomerResponseDTO
     {
         public int Id { get; init; }
         public string FirstName { get; init; }

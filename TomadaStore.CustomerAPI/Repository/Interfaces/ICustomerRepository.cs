@@ -6,7 +6,7 @@ namespace TomadaStore.CustomerAPI.Repository.Interfaces
     public interface ICustomerRepository
     {
         Task InsertCustomerAsync(CustomerRequestDTO customer);
-        Task<List<Customer>> GetCustomersAsync();
+        Task<List<CustomerResponseDTO>> GetAllCustomersAsync();
         Task<Customer> GetCustomerByIdAsync(int id);
     }
 }

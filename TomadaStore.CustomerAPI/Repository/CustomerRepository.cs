@@ -54,5 +54,28 @@ namespace TomadaStore.CustomerAPI.Repository
                 throw new Exception(e.Message);
             }
         }
+
+        public async Task<List<CustomerResponseDTO>> GetAllCustomersAsync()
+        {
+            try
+            {
+                var insertSql =
+                    @"SELECT Id, FirstName, LastName, Email, PhoneNumber FROM Customers";
+
+                var customers = await _connection.QueryAsync<CustomerResponseDTO>(insertSql);
+
+                return customers.ToList();
+            }
+            catch (SqlException e)
+            {
+                _logger.LogError("SQL Error inserting customer: " + e.StackTrace);
+                throw new Exception(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error inserting customer: " + e.StackTrace);
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

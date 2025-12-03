@@ -35,5 +35,20 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
                 return Problem(e.Message);
             }
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<CustomerResponseDTO>>> GetAllCustomerAsync()
+        {
+            try
+            {
+                var customers = await _customerService.GetAllCustomerAsync();
+                return Ok(customers);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error occurred while retriving all customers" + e.Message);
+                return Problem(e.Message);
+            }
+        }
     }
 }
