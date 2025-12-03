@@ -20,7 +20,7 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> CreateCustomerAsync([FromBody]CustomerRequestDTO customer)
+        public async Task<ActionResult<Customer>> CreateCustomerAsync([FromBody] CustomerRequestDTO customer)
         {
             try
             {
@@ -42,6 +42,11 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
             try
             {
                 var customers = await _customerService.GetAllCustomerAsync();
+
+                // O Padrão REST recomenda retornar 200 OK mesmo que a lista seja vazia.
+                //if (customers.Count == 0)
+                //    return Ok("There are no customers.");
+
                 return Ok(customers);
             }
             catch (Exception e)
@@ -58,8 +63,8 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
             {
                 var customer = await _customerService.GetCustomerByIdAsync(id);
 
-                if(customer is null)
-                    return NotFound("Customer not found.");
+                if (customer is null)
+                    return NotFound();
 
                 return Ok(customer);
             }
