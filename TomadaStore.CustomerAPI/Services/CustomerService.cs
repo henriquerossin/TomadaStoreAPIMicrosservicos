@@ -1,6 +1,7 @@
 ﻿using TomadaStore.CustomerAPI.Repository;
 using TomadaStore.CustomerAPI.Repository.Interfaces;
 using TomadaStore.CustomerAPI.Services.Interfaces;
+using TomadaStore.Models.DTOs.Customer;
 using TomadaStore.Models.Models;
 
 namespace TomadaStore.CustomerAPI.Services
@@ -26,7 +27,7 @@ namespace TomadaStore.CustomerAPI.Services
             throw new NotImplementedException();
         }
 
-        public async Task InsertCustomerAsync(Customer customer)
+        public async Task InsertCustomerAsync(CustomerRequestDTO customer)
         {
             try
             {

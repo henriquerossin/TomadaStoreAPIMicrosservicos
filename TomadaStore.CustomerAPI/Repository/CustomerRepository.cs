@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using TomadaStore.CustomerAPI.Data;
 using TomadaStore.CustomerAPI.Repository.Interfaces;
+using TomadaStore.Models.DTOs.Customer;
 using TomadaStore.Models.Models;
 
 namespace TomadaStore.CustomerAPI.Repository
@@ -27,7 +28,7 @@ namespace TomadaStore.CustomerAPI.Repository
             throw new NotImplementedException();
         }
 
-        public async Task InsertCustomerAsync(Customer customer)
+        public async Task InsertCustomerAsync(CustomerRequestDTO customer)
         {
             try
             {
@@ -35,7 +36,12 @@ namespace TomadaStore.CustomerAPI.Repository
                     @"INSERT INTO Customers (FirstName, LastName, Email, PhoneNumber) 
                     VALUES (@FirstName, @LastName, @Email, @PhoneNumber)";
 
-                await _connection.ExecuteAsync(insertSql, new { customer.FirstName, customer.LastName, customer.Email, customer.PhoneNumber });
+                await _connection.ExecuteAsync(
+                    insertSql, new { 
+                    customer.FirstName, 
+                    customer.LastName, 
+                    customer.Email, 
+                    customer.PhoneNumber });
             }
             catch (SqlException e)
             {

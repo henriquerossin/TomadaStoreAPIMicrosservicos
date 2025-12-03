@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TomadaStore.CustomerAPI.Services;
 using TomadaStore.CustomerAPI.Services.Interfaces;
+using TomadaStore.Models.DTOs.Customer;
 using TomadaStore.Models.Models;
 
 namespace TomadaStore.CustomerAPI.Controllers.v1
@@ -19,7 +20,7 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> CreateCustomerAsync(Customer customer)
+        public async Task<ActionResult<Customer>> CreateCustomerAsync([FromBody]CustomerRequestDTO customer)
         {
             try
             {
@@ -33,7 +34,6 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
                 _logger.LogError(e, "Error occurred while creating a new Customer. " + e.Message);
                 return Problem(e.Message);
             }
-
         }
     }
 }
