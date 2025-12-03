@@ -18,16 +18,6 @@ namespace TomadaStore.CustomerAPI.Repository
             _connection = connectionDB.GetConnection();
         }
 
-        public Task<Customer> GetCustomerByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Customer>> GetCustomersAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task InsertCustomerAsync(CustomerRequestDTO customer)
         {
             try
@@ -37,11 +27,13 @@ namespace TomadaStore.CustomerAPI.Repository
                     VALUES (@FirstName, @LastName, @Email, @PhoneNumber)";
 
                 await _connection.ExecuteAsync(
-                    insertSql, new { 
-                    customer.FirstName, 
-                    customer.LastName, 
-                    customer.Email, 
-                    customer.PhoneNumber });
+                    insertSql, new
+                    {
+                        customer.FirstName,
+                        customer.LastName,
+                        customer.Email,
+                        customer.PhoneNumber
+                    });
             }
             catch (SqlException e)
             {
@@ -51,6 +43,28 @@ namespace TomadaStore.CustomerAPI.Repository
             catch (Exception e)
             {
                 _logger.LogError("Error inserting customer: " + e.StackTrace);
+                throw new Exception(e.Message);
+            }
+        }
+
+        public async Task<CustomerResponseDTO> GetCustomerByIdAsync(int id)
+        {
+            try
+            {
+                var insertSql =
+                    @"SELECT Id, FirstName, LastName, Email, PhoneNumber FROM Customers
+                    WHERE Id = @CustomerId";
+
+                return await _connection.QueryFirstOrDefaultAsync<CustomerResponseDTO>(insertSql, new { CustomerId = id });
+            }
+            catch (SqlException e)
+            {
+                _logger.LogError("SQL Error retriving customer: " + e.StackTrace);
+                throw new Exception(e.Message);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error retriving customer: " + e.StackTrace);
                 throw new Exception(e.Message);
             }
         }
@@ -68,12 +82,12 @@ namespace TomadaStore.CustomerAPI.Repository
             }
             catch (SqlException e)
             {
-                _logger.LogError("SQL Error inserting customer: " + e.StackTrace);
+                _logger.LogError("SQL Error retriving customers: " + e.StackTrace);
                 throw new Exception(e.Message);
             }
             catch (Exception e)
             {
-                _logger.LogError("Error inserting customer: " + e.StackTrace);
+                _logger.LogError("Error retriving customers: " + e.StackTrace);
                 throw new Exception(e.Message);
             }
         }

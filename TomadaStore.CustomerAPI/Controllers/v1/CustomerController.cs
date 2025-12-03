@@ -50,5 +50,24 @@ namespace TomadaStore.CustomerAPI.Controllers.v1
                 return Problem(e.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CustomerResponseDTO>> GetCustomerByIdAsync(int id)
+        {
+            try
+            {
+                var customer = await _customerService.GetCustomerByIdAsync(id);
+
+                if(customer is null)
+                    return NotFound("Customer not found.");
+
+                return Ok(customer);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error occurred while retriving customer" + e.Message);
+                return Problem(e.Message);
+            }
+        }
     }
 }
