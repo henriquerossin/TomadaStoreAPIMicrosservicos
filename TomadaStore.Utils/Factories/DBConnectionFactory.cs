@@ -1,6 +1,8 @@
-﻿namespace TomadaStore.Utils.Factories
+﻿using TomadaStore.Utils.Factories.Interfaces;
+
+namespace TomadaStore.Utils.Factories
 {
-    internal abstract class DbConnectionFactory
+    public abstract class DbConnectionFactory
     {
         public abstract IDBConnection CreateDBConnection();
 

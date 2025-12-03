@@ -1,4 +1,4 @@
-﻿namespace TomadaStore.Utils
+﻿namespace TomadaStore.Utils.Factories.Interfaces
 {
     public interface IDBConnection
     {
