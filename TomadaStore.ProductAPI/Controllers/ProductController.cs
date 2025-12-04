@@ -44,7 +44,7 @@ namespace TomadaStore.ProductAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "An error occurred while creating a product. " + e.StackTrace);
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error.");
+                return StatusCode(500, "Internal Server Error.");
             }
         }
     }

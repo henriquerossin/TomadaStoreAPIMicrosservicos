@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TomadaStore.Models.Models
 {
-    internal class Sale
+    public class Sale
     {
         public string Id { get; private set; }
         public Customer Customer { get; private set; }
