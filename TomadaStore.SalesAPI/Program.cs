@@ -12,19 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Controllers
 builder.Services.AddControllers();
 
-// Lê o bloco MongoDB do appsettings.json
-builder.Services.Configure<MongoDBSettings>(
-    builder.Configuration.GetSection("MongoDB")
-);
+// Isso aqui lê o bloco de MongoDB do appsettings.json pra conectar o mongo
+builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
 
-// Registra o ConnectionDB com DI
+// Registra o ConnectionDB
 builder.Services.AddSingleton<ConnectionDB>();
 
-// REPOSITORY E SERVICE
+// Repository e Service
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 
-// HTTP CLIENTS
+// HTTP Clients para comunicação com CustomerAPI e ProductAPI
 builder.Services.AddHttpClient("CustomerAPI", client =>
 {
     client.BaseAddress = new Uri("https://localhost:5001/api/v1/Customer/");
