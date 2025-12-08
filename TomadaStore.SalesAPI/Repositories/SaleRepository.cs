@@ -26,54 +26,6 @@ namespace TomadaStore.SaleAPI.Repository
             _mongoCollection = connection.GetMongoCollection();
         }
 
-        //public async Task CreateSaleAsync(
-        //    CustomerResponseDTO customerDTO,
-        //    ProductResponseDTO productDTO,
-        //    SaleRequestDTO sale)
-        //{
-        //    try
-        //    {
-        //        var products = new List<Product>();
-
-        //        var category = new Category
-        //        (
-        //            new ObjectId(productDTO.Category.Id),
-        //            productDTO.Category.Name,
-        //            productDTO.Category.Description
-        //        );
-
-        //        var product = new Product
-        //        (
-        //            new ObjectId(productDTO.Id),
-        //            productDTO.Name,
-        //            productDTO.Description,
-        //            productDTO.Price,
-        //            category
-        //        );
-
-        //        products.Add(product);
-
-        //        var customer = new Customer
-        //        (
-        //            customerDTO.Id,
-        //            customerDTO.FirstName,
-        //            customerDTO.LastName,
-        //            customerDTO.Email,
-        //            customerDTO.PhoneNumber
-        //        );
-        //        await _mongoCollection.InsertOneAsync(new Sale
-        //        (
-        //            customer,
-        //            products,
-        //            productDTO.Price
-        //        ));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError($"Error creating sale: {ex.Message}");
-        //        throw;
-        //    }
-        //}
         public async Task CreateSaleAsync(
             CustomerResponseDTO customerDTO,
             List<(ProductResponseDTO product,

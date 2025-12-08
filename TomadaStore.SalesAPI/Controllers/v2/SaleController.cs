@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using TomadaStore.Models.DTOs.Sale;
 using TomadaStore.SalesAPI.Services.Interfaces;
 
-namespace TomadaStore.SalesAPI.Controllers
+namespace TomadaStore.SalesAPI.Controllers.v2
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v2/[controller]")]
     [ApiController]
     public class SaleController : ControllerBase
     {

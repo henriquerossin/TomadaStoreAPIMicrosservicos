@@ -1,4 +1,8 @@
-﻿using TomadaStore.Models.DTOs.Customer;
+﻿using Microsoft.AspNetCore.Connections;
+using RabbitMQ.Client;
+using System.Text;
+using System.Text.Json;
+using TomadaStore.Models.DTOs.Customer;
 using TomadaStore.Models.DTOs.Product;
 using TomadaStore.Models.DTOs.Sale;
 using TomadaStore.SalesAPI.Repositories.Interfaces;
@@ -39,7 +43,23 @@ namespace TomadaStore.SalesAPI.Services
                 items.Add((product, item.Quantity));
             }
 
-            await _saleRepository.CreateSaleAsync(customer, items);
+            var factory = new ConnectionFactory { HostName = "localhost" };
+            using var connection = await factory.CreateConnectionAsync();
+            using var channel = await connection.CreateChannelAsync();
+
+            await channel.QueueDeclareAsync(
+                queue: "Sale",
+                durable: false,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            var message = JsonSerializer.Serialize(new { Customer = customer, Items = items });
+            var body = Encoding.UTF8.GetBytes(message);
+
+            await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "Sale", body: body);
+
+            //await _saleRepository.CreateSaleAsync(customer, items);
         }
     }
 }
