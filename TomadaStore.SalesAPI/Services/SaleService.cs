@@ -37,14 +37,19 @@ namespace TomadaStore.SalesAPI.Services
 
             var items = new List<SaleItemMessageDTO>();
 
+            decimal totalPrice = 0;
+
             foreach (var item in itemsDTO)
             {
                 var product = await _httpClientProduct.GetFromJsonAsync<ProductResponseDTO>(item.ProductId);
                 items.Add(new SaleItemMessageDTO
                 {
                     Product = product,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    TotalPrice = product.Price * item.Quantity
                 });
+
+                totalPrice += product.Price * item.Quantity;
             }
 
             var factory = new ConnectionFactory { HostName = "localhost" };
@@ -58,12 +63,10 @@ namespace TomadaStore.SalesAPI.Services
                 autoDelete: false,
                 arguments: null);
 
-            var message = JsonSerializer.Serialize(new { Customer = customer, Items = items });
+            var message = JsonSerializer.Serialize(new { Customer = customer, Items = items, TotalPrice = totalPrice });
             var body = Encoding.UTF8.GetBytes(message);
 
             await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "Sale", body: body);
-
-            //await _saleRepository.CreateSaleAsync(customer, items);
         }
     }
 }

@@ -15,5 +15,11 @@ namespace TomadaStore.Models.DTOs.Sale
 
         [BsonElement("items")]
         public List<SaleItemMessageDTO> Items { get; init; }
+
+        [BsonElement("date")]
+        public DateTime Date = DateTime.Now;
+
+        [BsonElement("totalPrice")]
+        public decimal TotalPrice { get; init; }
     }
 }

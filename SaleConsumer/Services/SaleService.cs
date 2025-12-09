@@ -37,7 +37,6 @@ namespace SaleConsumer.Services
 
             var consumer = new AsyncEventingBasicConsumer(channel);
 
-
             consumer.ReceivedAsync += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
@@ -52,8 +51,6 @@ namespace SaleConsumer.Services
             };
 
             var sale = await channel.BasicConsumeAsync("Sale", autoAck: true, consumer: consumer);
-
-            //await _saleRepository.CreateSaleAsync(finalSale);
         }
     }
 }

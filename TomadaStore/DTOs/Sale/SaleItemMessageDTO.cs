@@ -9,7 +9,8 @@ namespace TomadaStore.Models.DTOs.Sale
 {
     public class SaleItemMessageDTO
     {
-        public ProductResponseDTO Product { get; set; }
-        public int Quantity { get; set; }
+        public ProductResponseDTO Product { get; init; }
+        public int Quantity { get; init; }
+        public decimal TotalPrice { get; init; }
     }
 }
