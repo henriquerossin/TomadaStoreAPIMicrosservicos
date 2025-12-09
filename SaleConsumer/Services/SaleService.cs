@@ -49,8 +49,6 @@ namespace SaleConsumer.Services
                 _logger.LogInformation("Received: ", message);
 
                 await _saleRepository.CreateSaleAsync(finalSale);
-
-                //return _saleRepository.CreateSaleAsync(finalSale);
             };
 
             var sale = await channel.BasicConsumeAsync("Sale", autoAck: true, consumer: consumer);
