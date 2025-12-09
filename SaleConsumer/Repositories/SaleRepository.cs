@@ -16,7 +16,7 @@ namespace TomadaStore.SaleConsumer.Repositories
     {
         private readonly ILogger<SaleRepository> _logger;
 
-        private readonly IMongoCollection<Sale> _mongoCollection;
+        private readonly IMongoCollection<SaleResponseDTO> _mongoCollection;
 
         private readonly ConnectionDB _connection;
 
@@ -29,7 +29,7 @@ namespace TomadaStore.SaleConsumer.Repositories
             _mongoCollection = connection.GetMongoCollection();
         }
 
-        public async Task CreateSaleAsync(Sale sale)
+        public async Task CreateSaleAsync(SaleResponseDTO sale)
         {
             //var products = new List<Product>();
             //decimal total = 0;

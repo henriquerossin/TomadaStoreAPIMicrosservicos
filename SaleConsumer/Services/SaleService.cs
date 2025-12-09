@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Connections;
+using MongoDB.Bson.Serialization;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SaleConsumer.Repositories.Interfaces;
@@ -36,19 +37,20 @@ namespace SaleConsumer.Services
 
             var consumer = new AsyncEventingBasicConsumer(channel);
 
-            Sale finalSale = null;
 
-            consumer.ReceivedAsync += (model, ea) =>
+            consumer.ReceivedAsync += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
 
                 var message = Encoding.UTF8.GetString(body);
 
-                finalSale = JsonSerializer.Deserialize<Sale>(message);
+                var finalSale = JsonSerializer.Deserialize<SaleResponseDTO>(message);
 
                 _logger.LogInformation("Received: ", message);
 
-                return _saleRepository.CreateSaleAsync(finalSale);
+                await _saleRepository.CreateSaleAsync(finalSale);
+
+                //return _saleRepository.CreateSaleAsync(finalSale);
             };
 
             var sale = await channel.BasicConsumeAsync("Sale", autoAck: true, consumer: consumer);

@@ -35,12 +35,16 @@ namespace TomadaStore.SalesAPI.Services
         {
             var customer = await _httpClientCustomer.GetFromJsonAsync<CustomerResponseDTO>(idCustomer.ToString());
 
-            var items = new List<(ProductResponseDTO product, int quantity)>();
+            var items = new List<SaleItemMessageDTO>();
 
             foreach (var item in itemsDTO)
             {
                 var product = await _httpClientProduct.GetFromJsonAsync<ProductResponseDTO>(item.ProductId);
-                items.Add((product, item.Quantity));
+                items.Add(new SaleItemMessageDTO
+                {
+                    Product = product,
+                    Quantity = item.Quantity
+                });
             }
 
             var factory = new ConnectionFactory { HostName = "localhost" };
