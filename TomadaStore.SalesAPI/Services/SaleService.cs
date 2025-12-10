@@ -17,6 +17,7 @@ namespace TomadaStore.SalesAPI.Services
         private readonly ILogger<SaleService> _logger;
 
         private readonly HttpClient _httpClientProduct;
+
         private readonly HttpClient _httpClientCustomer;
 
         public SaleService(

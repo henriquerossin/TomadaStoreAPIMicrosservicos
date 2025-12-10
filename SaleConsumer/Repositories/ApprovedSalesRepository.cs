@@ -12,7 +12,7 @@ using TomadaStore.SaleConsumer.Data;
 
 namespace TomadaStore.SaleConsumer.Repositories
 {
-    public class SaleRepository : ISaleRepository
+    public class ApprovedSalesRepository : IApprovedSalesRepository
     {
         private readonly ILogger<SaleRepository> _logger;
 
@@ -20,16 +20,16 @@ namespace TomadaStore.SaleConsumer.Repositories
 
         private readonly ConnectionDB _connection;
 
-        public SaleRepository(
+        public ApprovedSalesRepository(
             ILogger<SaleRepository> logger,
             ConnectionDB connection)
         {
             _logger = logger;
             _connection = connection;
-            _mongoCollection = connection.GetMongoCollection();
+            _mongoCollection = connection.GetMongoCollectionAprovedSales();
         }
 
-        public async Task CreateSaleAsync(SaleResponseDTO sale)
+        public async Task CreateApprovedSaleAsync(SaleResponseDTO sale)
         {
             await _mongoCollection.InsertOneAsync(sale);
         }

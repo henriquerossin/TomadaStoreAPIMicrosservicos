@@ -18,6 +18,9 @@ builder.Services.AddSingleton<ConnectionDB>();
 
 // Repository e Service
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+
+builder.Services.AddScoped<IApprovedSalesRepository, ApprovedSalesRepository>();
+
 builder.Services.AddScoped<ISaleService, SaleService>();
 
 var app = builder.Build();

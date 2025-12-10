@@ -21,5 +21,8 @@ namespace TomadaStore.Models.DTOs.Sale
 
         [BsonElement("totalPrice")]
         public decimal TotalPrice { get; init; }
+
+        [BsonElement("SaleStatus")]
+        public bool SaleStatus { get; init; }
     }
 }

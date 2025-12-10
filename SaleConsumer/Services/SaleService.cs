@@ -17,12 +17,14 @@ namespace SaleConsumer.Services
     public class SaleService : ISaleService
     {
         private readonly ISaleRepository _saleRepository;
+        private readonly IApprovedSalesRepository _approvedSalesRepository;
 
         private readonly ILogger<SaleService> _logger;
 
-        public SaleService(ISaleRepository saleRepository, ILogger<SaleService> logger)
+        public SaleService(ISaleRepository saleRepository, IApprovedSalesRepository approvedSalesRepository, ILogger<SaleService> logger)
         {
             _saleRepository = saleRepository;
+            _approvedSalesRepository = approvedSalesRepository;
             _logger = logger;
         }
 
@@ -32,7 +34,7 @@ namespace SaleConsumer.Services
             using var connection = await factory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();
 
-            await channel.QueueDeclareAsync(queue: "Sale", durable: false, exclusive: false, autoDelete: false,
+            await channel.QueueDeclareAsync(queue: "FinalSale", durable: false, exclusive: false, autoDelete: false,
                 arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
@@ -47,10 +49,13 @@ namespace SaleConsumer.Services
 
                 _logger.LogInformation("Received: ", message);
 
-                await _saleRepository.CreateSaleAsync(finalSale);
+                if (finalSale.SaleStatus == true)
+                    await _approvedSalesRepository.CreateApprovedSaleAsync(finalSale);
+                else
+                    await _saleRepository.CreateSaleAsync(finalSale);
             };
 
-            var sale = await channel.BasicConsumeAsync("Sale", autoAck: true, consumer: consumer);
+            var sale = await channel.BasicConsumeAsync("FinalSale", autoAck: true, consumer: consumer);
         }
     }
 }
